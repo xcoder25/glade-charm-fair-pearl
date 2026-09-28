@@ -1,5 +1,5 @@
-import { n as DEFAULT_MIGRATION_TABLE, t as DEFAULT_MIGRATION_LOCK_TABLE } from "./kysely-migration-tables-JkVUjPF_-CcjckS9u.mjs";
 import { c as SqliteAdapter, l as SqliteQueryCompiler } from "../_libs/kysely.mjs";
+import { n as DEFAULT_MIGRATION_TABLE, t as DEFAULT_MIGRATION_LOCK_TABLE } from "./kysely-migration-tables-JkVUjPF_-CcjckS9u.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/d1-sqlite-dialect-BLC8LXE6-Cz4CmXAf.js
 var D1SqliteAdapter = class extends SqliteAdapter {};
 var D1SqliteDriver = class {

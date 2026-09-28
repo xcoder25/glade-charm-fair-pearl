@@ -1,11 +1,10 @@
 import { o as __toESM } from "../_runtime.mjs";
 import { n as require_react } from "../_libs/@radix-ui/react-compose-refs+[...].mjs";
-import { b as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
-import { a as PHONE_ALT_DISPLAY, c as PHONE_PRIMARY_TEL, d as whatsappUrlWithText, i as CONTACT_EMAIL, l as WHATSAPP_URL, n as BOOKING_SESSIONS, o as PHONE_ALT_TEL, s as PHONE_PRIMARY_DISPLAY, t as BOOKINGS_LEAD } from "./contact-DVXKDbBo.mjs";
-import { t as createBooking } from "./bookings-G5smzzt6.mjs";
-import { n as cn, t as Button } from "./button-jyh5vPuY.mjs";
-import { C as ArrowRight, S as Award, _ as CircleCheck, b as Building2, c as Shield, d as Quote, f as MessageCircle, h as Dumbbell, i as Trophy, l as Send, m as Flame, n as X, o as Star, p as Menu, r as Users, s as Sparkles, t as Zap, v as ChevronDown, w as ArrowDown, x as Bot, y as Check } from "../_libs/lucide-react.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-CQ-umcGQ.js
+import { x as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
+import { a as PHONE_ALT_DISPLAY, c as PHONE_PRIMARY_TEL, f as whatsappUrlWithText, i as CONTACT_EMAIL, l as WHATSAPP_URL, n as BOOKING_SESSIONS, o as PHONE_ALT_TEL, s as PHONE_PRIMARY_DISPLAY, t as BOOKINGS_LEAD } from "./contact-B9SGFRve.mjs";
+import { a as createBooking, i as cn, t as Button } from "./button-ys1UZuhp.mjs";
+import { B as Award, F as ChevronDown, H as ArrowDown, I as Check, R as Building2, T as Dumbbell, V as ArrowRight, _ as Menu, a as Trophy, c as Star, d as Send, g as MessageCircle, h as Quote, k as CircleCheck, l as Sparkles, n as X, r as Users, t as Zap, u as Shield, x as Flame, z as Bot } from "../_libs/lucide-react.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-CjVWk02k.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var LINKS = [
@@ -171,9 +170,17 @@ function Footer() {
 							className: "mt-1 text-sm text-muted",
 							children: [
 								"Bookings Lead: ",
-								BOOKINGS_LEAD,
-								" · ",
-								PHONE_PRIMARY_DISPLAY
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									className: "font-medium text-fg",
+									children: BOOKINGS_LEAD
+								}),
+								" ·",
+								" ",
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+									href: `tel:${PHONE_PRIMARY_TEL}`,
+									className: "text-fg hover:underline",
+									children: PHONE_PRIMARY_DISPLAY
+								})
 							]
 						})
 					] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
@@ -231,26 +238,28 @@ function Footer() {
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("ul", {
 						className: "flex flex-col gap-3 text-sm",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", { children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-									className: "text-subtle text-xs uppercase tracking-wider mb-0.5",
-									children: "Bookings"
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-									href: `tel:${PHONE_PRIMARY_TEL}`,
-									className: "text-muted transition-colors hover:text-fg",
-									children: PHONE_PRIMARY_DISPLAY
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "text-subtle",
-									children: " · "
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-									href: `tel:${PHONE_ALT_TEL}`,
-									className: "text-muted transition-colors hover:text-fg",
-									children: PHONE_ALT_DISPLAY
-								})
-							] }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+								className: "text-subtle text-xs uppercase tracking-wider mb-0.5",
+								children: ["Bookings · ", BOOKINGS_LEAD]
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex flex-wrap items-center gap-1.5",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+										href: `tel:${PHONE_PRIMARY_TEL}`,
+										className: "text-muted transition-colors hover:text-fg",
+										children: PHONE_PRIMARY_DISPLAY
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+										className: "text-subtle",
+										children: " · "
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+										href: `tel:${PHONE_ALT_TEL}`,
+										className: "text-muted transition-colors hover:text-fg",
+										children: PHONE_ALT_DISPLAY
+									})
+								]
+							})] }),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 								className: "text-subtle text-xs uppercase tracking-wider mb-0.5",
 								children: "Email"
@@ -346,7 +355,11 @@ function BookForm() {
 					name,
 					", your ",
 					session.toLowerCase(),
-					" request is logged. Tap below — your details are pre-filled so the team can reply immediately."
+					" request is logged. Tap below — your details are pre-filled to chat with Bookings Lead ",
+					BOOKINGS_LEAD,
+					" (",
+					PHONE_PRIMARY_DISPLAY,
+					") on WhatsApp immediately."
 				]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -354,11 +367,15 @@ function BookForm() {
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 					asChild: true,
 					className: "bg-emerald-600 hover:bg-emerald-500 text-white border-0",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
 						href: whatsappUrl,
 						target: "_blank",
 						rel: "noreferrer",
-						children: "Send via WhatsApp →"
+						children: [
+							"Message ",
+							BOOKINGS_LEAD,
+							" on WhatsApp →"
+						]
 					})
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 					type: "button",
@@ -403,7 +420,7 @@ function BookForm() {
 						value: phone,
 						onChange: (e) => setPhone(e.target.value),
 						className: "h-11 w-full rounded-md border border-border bg-surface px-3 text-sm text-fg placeholder:text-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg",
-						placeholder: "0708…",
+						placeholder: "+234 708… or 0708…",
 						autoComplete: "tel",
 						inputMode: "tel"
 					})]
@@ -693,7 +710,7 @@ var RULES = [
 			"sign up"
 		],
 		replies: [{
-			text: `Simple. Two ways:\n\n1️⃣ Fill the form at the bottom of this page — name, number, what you need.\n2️⃣ Message the desk directly on WhatsApp: ${PHONE_PRIMARY_DISPLAY}\n\nWe reply with availability and rate. No back-and-forth drama.`,
+			text: `Simple. Two ways:\n\n1️⃣ Fill the form at the bottom of this page — name, number, what you need.\n2️⃣ Message the desk directly on WhatsApp or call: ${PHONE_PRIMARY_DISPLAY} (${BOOKINGS_LEAD})\nAlt: ${PHONE_ALT_DISPLAY}\n\nWe reply with availability and rate. No back-and-forth drama.`,
 			chips: [
 				"Go to booking form",
 				"WhatsApp now",
@@ -712,7 +729,7 @@ var RULES = [
 			"message"
 		],
 		replies: [{
-			text: `Fastest path to Jack's team:\n\n📱 WhatsApp: ${PHONE_PRIMARY_DISPLAY} (${BOOKINGS_LEAD} — Bookings Lead)\n📧 Email: ${CONTACT_EMAIL}\n\nWhatsApp gets the fastest reply. Always.`,
+			text: `Fastest path to Jack's team:\n\n📱 WhatsApp / Tel: ${PHONE_PRIMARY_DISPLAY} (${BOOKINGS_LEAD} — Bookings Lead)\n📞 Alt phone: ${PHONE_ALT_DISPLAY}\n📧 Email: ${CONTACT_EMAIL}\n\nWhatsApp gets the fastest reply. Always.`,
 			chips: ["Open WhatsApp now", "Book via form instead"]
 		}]
 	},
@@ -2140,7 +2157,11 @@ function Home() {
 												href: WHATSAPP_URL,
 												target: "_blank",
 												rel: "noreferrer",
-												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "size-2 rounded-full bg-emerald-400 animate-pulse" }), "Message the desk"]
+												children: [
+													/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "size-2 rounded-full bg-emerald-400 animate-pulse" }),
+													"Chat with ",
+													BOOKINGS_LEAD
+												]
 											})]
 										})
 									]

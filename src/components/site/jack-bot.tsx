@@ -1,7 +1,13 @@
 import { useState, useRef, useEffect, type KeyboardEvent } from "react";
 import { X, Send, Bot, ChevronDown, Zap } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { BOOKINGS_LEAD, CONTACT_EMAIL, PHONE_PRIMARY_DISPLAY, WHATSAPP_URL } from "@/lib/contact";
+import {
+  BOOKINGS_LEAD,
+  CONTACT_EMAIL,
+  PHONE_ALT_DISPLAY,
+  PHONE_PRIMARY_DISPLAY,
+  WHATSAPP_URL,
+} from "@/lib/contact";
 
 /* ─────────────────────────────────────────────
    JACK-BOT BRAIN — keyword → response engine
@@ -133,7 +139,7 @@ const RULES: { keywords: string[]; replies: Reply[] }[] = [
     keywords: ["book", "booking", "schedule", "appointment", "reserve", "how to book", "sign up"],
     replies: [
       {
-        text: `Simple. Two ways:\n\n1️⃣ Fill the form at the bottom of this page — name, number, what you need.\n2️⃣ Message the desk directly on WhatsApp: ${PHONE_PRIMARY_DISPLAY}\n\nWe reply with availability and rate. No back-and-forth drama.`,
+        text: `Simple. Two ways:\n\n1️⃣ Fill the form at the bottom of this page — name, number, what you need.\n2️⃣ Message the desk directly on WhatsApp or call: ${PHONE_PRIMARY_DISPLAY} (${BOOKINGS_LEAD})\nAlt: ${PHONE_ALT_DISPLAY}\n\nWe reply with availability and rate. No back-and-forth drama.`,
         chips: ["Go to booking form", "WhatsApp now", "What info do I need?"],
       },
     ],
@@ -142,7 +148,7 @@ const RULES: { keywords: string[]; replies: Reply[] }[] = [
     keywords: ["whatsapp", "contact", "call", "phone", "email", "reach", "message"],
     replies: [
       {
-        text: `Fastest path to Jack's team:\n\n📱 WhatsApp: ${PHONE_PRIMARY_DISPLAY} (${BOOKINGS_LEAD} — Bookings Lead)\n📧 Email: ${CONTACT_EMAIL}\n\nWhatsApp gets the fastest reply. Always.`,
+        text: `Fastest path to Jack's team:\n\n📱 WhatsApp / Tel: ${PHONE_PRIMARY_DISPLAY} (${BOOKINGS_LEAD} — Bookings Lead)\n📞 Alt phone: ${PHONE_ALT_DISPLAY}\n📧 Email: ${CONTACT_EMAIL}\n\nWhatsApp gets the fastest reply. Always.`,
         chips: ["Open WhatsApp now", "Book via form instead"],
       },
     ],

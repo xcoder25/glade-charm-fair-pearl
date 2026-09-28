@@ -1,5 +1,5 @@
 import { n as createMiddleware } from "./ssr.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/contact-DVXKDbBo.js
+//#region node_modules/.nitro/vite/services/ssr/assets/contact-B9SGFRve.js
 /**
 * Auth middleware for server functions — the standard way to get the caller's
 * verified user id. When deployed the session cookie is same-origin and rides
@@ -26,20 +26,20 @@ import { n as createMiddleware } from "./ssr.mjs";
 * per-user data and scope every query by `context.userId`.
 */
 var authMiddleware = createMiddleware({ type: "function" }).client(async ({ next }) => {
-	const { getBearerToken } = await import("./client-Cw94UyIB.mjs").then((n) => n.n);
+	const { getBearerToken } = await import("./client-DEO5hdof.mjs");
 	return next({ sendContext: { bearerToken: getBearerToken() ?? void 0 } });
 }).server(async ({ next, context }) => {
 	const { assertSameSiteRequest } = await import("./isolation.server-CGNg1r0B.mjs");
-	const { requireUserId } = await import("./verify.server-CYDjhTkg.mjs");
+	const { requireUserId } = await import("./verify.server-Cshm7pu1.mjs");
 	assertSameSiteRequest();
 	return next({ context: { userId: await requireUserId(context.bearerToken) } });
 });
 var BOOKINGS_LEAD = "To Ani Chigoziem";
 var PHONE_PRIMARY_E164 = "2347088841879";
 var PHONE_PRIMARY_TEL = "+2347088841879";
-var PHONE_PRIMARY_DISPLAY = "0708 884 1879";
+var PHONE_PRIMARY_DISPLAY = "+2347088841879";
 var PHONE_ALT_TEL = "+2348153511177";
-var PHONE_ALT_DISPLAY = "0815 351 1177";
+var PHONE_ALT_DISPLAY = "+234 815 351 1177";
 var WHATSAPP_URL = `https://wa.me/${PHONE_PRIMARY_E164}`;
 var CONTACT_EMAIL = "manueljack929@gmail.com";
 var BOOKING_SESSIONS = [
@@ -56,5 +56,9 @@ var BOOKING_STATUSES = [
 function whatsappUrlWithText(text) {
 	return `${WHATSAPP_URL}?text=${encodeURIComponent(text)}`;
 }
+function whatsappUrlForNumber(phone, text) {
+	const base = `https://wa.me/${phone.replace(/[^0-9]/g, "")}`;
+	return text ? `${base}?text=${encodeURIComponent(text)}` : base;
+}
 //#endregion
-export { PHONE_ALT_DISPLAY as a, PHONE_PRIMARY_TEL as c, whatsappUrlWithText as d, CONTACT_EMAIL as i, WHATSAPP_URL as l, BOOKING_SESSIONS as n, PHONE_ALT_TEL as o, BOOKING_STATUSES as r, PHONE_PRIMARY_DISPLAY as s, BOOKINGS_LEAD as t, authMiddleware as u };
+export { PHONE_ALT_DISPLAY as a, PHONE_PRIMARY_TEL as c, whatsappUrlForNumber as d, whatsappUrlWithText as f, CONTACT_EMAIL as i, WHATSAPP_URL as l, BOOKING_SESSIONS as n, PHONE_ALT_TEL as o, BOOKING_STATUSES as r, PHONE_PRIMARY_DISPLAY as s, BOOKINGS_LEAD as t, authMiddleware as u };

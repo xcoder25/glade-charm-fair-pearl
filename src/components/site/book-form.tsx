@@ -2,7 +2,12 @@ import { useState, type FormEvent } from "react";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createBooking } from "@/lib/bookings";
-import { BOOKING_SESSIONS, whatsappUrlWithText } from "@/lib/contact";
+import {
+  BOOKING_SESSIONS,
+  BOOKINGS_LEAD,
+  PHONE_PRIMARY_DISPLAY,
+  whatsappUrlWithText,
+} from "@/lib/contact";
 import { cn } from "@/lib/cn";
 
 export function BookForm() {
@@ -65,12 +70,12 @@ export function BookForm() {
         <h3 className="mt-4 font-display text-3xl tracking-wide text-fg">Request received</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted">
           {name}, your {session.toLowerCase()} request is logged. Tap below — your details are
-          pre-filled so the team can reply immediately.
+          pre-filled to chat with Bookings Lead {BOOKINGS_LEAD} ({PHONE_PRIMARY_DISPLAY}) on WhatsApp immediately.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <Button asChild className="bg-emerald-600 hover:bg-emerald-500 text-white border-0">
             <a href={whatsappUrl} target="_blank" rel="noreferrer">
-              Send via WhatsApp →
+              Message {BOOKINGS_LEAD} on WhatsApp →
             </a>
           </Button>
           <Button
@@ -115,7 +120,7 @@ export function BookForm() {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             className="h-11 w-full rounded-md border border-border bg-surface px-3 text-sm text-fg placeholder:text-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg"
-            placeholder="0708…"
+            placeholder="+234 708… or 0708…"
             autoComplete="tel"
             inputMode="tel"
           />

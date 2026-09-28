@@ -1,5 +1,5 @@
-import { n as DEFAULT_MIGRATION_TABLE, t as DEFAULT_MIGRATION_LOCK_TABLE } from "./kysely-migration-tables-JkVUjPF_-CcjckS9u.mjs";
 import { d as DefaultQueryCompiler, f as sql, u as CompiledQuery } from "../_libs/kysely.mjs";
+import { n as DEFAULT_MIGRATION_TABLE, t as DEFAULT_MIGRATION_LOCK_TABLE } from "./kysely-migration-tables-JkVUjPF_-CcjckS9u.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/node-sqlite-dialect-Dll8FGmJ.js
 var NodeSqliteAdapter = class {
 	get supportsCreateIfNotExists() {

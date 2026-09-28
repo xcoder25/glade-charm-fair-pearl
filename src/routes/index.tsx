@@ -869,7 +869,7 @@ function Home() {
                         rel="noreferrer"
                       >
                         <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-                        Message the desk
+                        Chat with {BOOKINGS_LEAD}
                       </a>
                     </li>
                   </ul>

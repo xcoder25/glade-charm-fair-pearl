@@ -36,7 +36,10 @@ export function Footer() {
               Message the desk on WhatsApp
             </p>
             <p className="mt-1 text-sm text-muted">
-              Bookings Lead: {BOOKINGS_LEAD} · {PHONE_PRIMARY_DISPLAY}
+              Bookings Lead: <span className="font-medium text-fg">{BOOKINGS_LEAD}</span> ·{" "}
+              <a href={`tel:${PHONE_PRIMARY_TEL}`} className="text-fg hover:underline">
+                {PHONE_PRIMARY_DISPLAY}
+              </a>
             </p>
           </div>
           <a
@@ -100,14 +103,18 @@ export function Footer() {
           </p>
           <ul className="flex flex-col gap-3 text-sm">
             <li>
-              <p className="text-subtle text-xs uppercase tracking-wider mb-0.5">Bookings</p>
-              <a href={`tel:${PHONE_PRIMARY_TEL}`} className="text-muted transition-colors hover:text-fg">
-                {PHONE_PRIMARY_DISPLAY}
-              </a>
-              <span className="text-subtle"> · </span>
-              <a href={`tel:${PHONE_ALT_TEL}`} className="text-muted transition-colors hover:text-fg">
-                {PHONE_ALT_DISPLAY}
-              </a>
+              <p className="text-subtle text-xs uppercase tracking-wider mb-0.5">
+                Bookings · {BOOKINGS_LEAD}
+              </p>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <a href={`tel:${PHONE_PRIMARY_TEL}`} className="text-muted transition-colors hover:text-fg">
+                  {PHONE_PRIMARY_DISPLAY}
+                </a>
+                <span className="text-subtle"> · </span>
+                <a href={`tel:${PHONE_ALT_TEL}`} className="text-muted transition-colors hover:text-fg">
+                  {PHONE_ALT_DISPLAY}
+                </a>
+              </div>
             </li>
             <li>
               <p className="text-subtle text-xs uppercase tracking-wider mb-0.5">Email</p>

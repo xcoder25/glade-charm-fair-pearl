@@ -1,11 +1,11 @@
 import { o as __toESM } from "../_runtime.mjs";
-import { n as require_react } from "../_libs/@radix-ui/react-compose-refs+[...].mjs";
-import { s as __exportAll } from "./ssr.mjs";
-import { D as toKebabCase, S as isSafeUrlScheme, f as getBaseURL, l as capitalizeFirstLetter, o as GENERIC_OAUTH_ERROR_CODES, s as PACKAGE_VERSION } from "./url-D303KJTN.mjs";
-import { a as atom, i as onSet, n as STORE_UNMOUNT_DELAY, r as onMount, t as listenKeys } from "../_libs/nanostores.mjs";
+import { A as capitalizeFirstLetter, D as GENERIC_OAUTH_ERROR_CODES, J as toKebabCase, N as getBaseURL, O as PACKAGE_VERSION, U as isSafeUrlScheme } from "./factory-CzrKxdTd.mjs";
 import { n as defu } from "../_libs/defu.mjs";
 import { n as createFetch } from "../_libs/better-fetch__fetch.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/client-Cw94UyIB.js
+import "./server-Dn-9OK9O.mjs";
+import { n as require_react } from "../_libs/@radix-ui/react-compose-refs+[...].mjs";
+import { a as atom, i as onSet, n as STORE_UNMOUNT_DELAY, r as onMount, t as listenKeys } from "../_libs/nanostores.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/client-DEO5hdof.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var genericOAuthClient = () => {
 	return {
@@ -863,13 +863,6 @@ async function runPreSignInSignOut({ livePreview, hasBearer, requestSignOut, cle
 	if (hasBearer || !livePreview) await settleWithin(requestSignOut, timeoutMs ?? signOutTimeoutMs(livePreview));
 	clearToken();
 }
-var client_exports = /* @__PURE__ */ __exportAll({
-	authClient: () => authClient,
-	authEnabled: () => true,
-	getBearerToken: () => getBearerToken,
-	signIn: () => signIn,
-	signOut: () => signOut
-});
 /**
 * Better Auth client for this React SPA (browser-side).
 *
@@ -1039,4 +1032,4 @@ async function signOut(redirectTo = "/") {
 	});
 }
 //#endregion
-export { signOut as i, client_exports as n, signIn as r, authClient as t };
+export { authClient, getBearerToken, signIn, signOut };

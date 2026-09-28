@@ -20,11 +20,16 @@ export type BookingRow = {
   updatedAt: string;
 };
 
-const PAGE_SIZE = 50;
+export type BookingStats = {
+  total: number;
+  newCount: number;
+  contactedCount: number;
+  archivedCount: number;
+};
 
 const createSchema = z.object({
-  name: z.string().trim().min(2).max(80),
-  phone: z.string().trim().min(8).max(32),
+  name: z.string().trim().min(2, "Name must be at least 2 characters").max(80),
+  phone: z.string().trim().min(8, "Phone number is too short").max(32),
   email: z.string().trim().max(120).default(""),
   session: z.enum(BOOKING_SESSIONS),
   note: z.string().trim().max(2000).default(""),
@@ -34,8 +39,9 @@ const listSchema = z.object({
   q: z.string().trim().max(80).optional().default(""),
   session: z.string().optional().default("all"),
   status: z.string().optional().default("all"),
-  sort: z.enum(["newest", "oldest", "name", "status"]).optional().default("newest"),
+  sort: z.enum(["newest", "oldest", "name", "name_desc", "status"]).optional().default("newest"),
   page: z.number().int().min(1).optional().default(1),
+  pageSize: z.number().int().min(5).max(500).optional().default(50),
 });
 
 const statusSchema = z.object({
@@ -67,8 +73,9 @@ function mapRow(row: {
   };
 }
 
-async function requireAdmin(userId: string) {
+export async function requireAdmin(userId: string) {
   const sql = await getSql();
+  // First user claiming or accessing becomes admin
   await sql`
     insert into admins (user_id)
     select ${userId}
@@ -113,9 +120,11 @@ function buildFilter(data: z.infer<typeof listSchema>) {
       ? "created_at asc"
       : data.sort === "name"
         ? "name asc"
-        : data.sort === "status"
-          ? "status asc, created_at desc"
-          : "created_at desc";
+        : data.sort === "name_desc"
+          ? "name desc"
+          : data.sort === "status"
+            ? "case status when 'new' then 1 when 'contacted' then 2 when 'archived' then 3 else 4 end asc, created_at desc"
+            : "created_at desc";
   return { whereSql: where.join(" and "), params, order };
 }
 
@@ -139,19 +148,56 @@ export const claimAdmin = createServerFn({ method: "POST" })
     return { ok: true as const, userId: context.userId };
   });
 
+export const checkAdminSetup = createServerFn({ method: "GET" })
+  .handler(async () => {
+    const sql = await getSql();
+    const rows = await sql<{ count: number }>`
+      select count(*)::int as count from admins
+    `;
+    return { hasAdmin: (rows[0]?.count ?? 0) > 0 };
+  });
+
+export const getBookingStats = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
+  .handler(async ({ context }) => {
+    await requireAdmin(context.userId);
+    const sql = await getSql();
+    const rows = await sql<{
+      total: number;
+      new_count: number;
+      contacted_count: number;
+      archived_count: number;
+    }>`
+      select
+        count(*)::int as total,
+        count(*) filter (where status = 'new')::int as new_count,
+        count(*) filter (where status = 'contacted')::int as contacted_count,
+        count(*) filter (where status = 'archived')::int as archived_count
+      from bookings
+    `;
+    const r = rows[0] ?? { total: 0, new_count: 0, contacted_count: 0, archived_count: 0 };
+    return {
+      total: r.total,
+      newCount: r.new_count,
+      contactedCount: r.contacted_count,
+      archivedCount: r.archived_count,
+    };
+  });
+
 export const listBookings = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
   .validator((data: unknown) => listSchema.parse(data ?? {}))
   .handler(async ({ context, data }) => {
     await requireAdmin(context.userId);
     const sql = await getSql();
+    const pageSize = data.pageSize ?? 50;
     const { whereSql, params, order } = buildFilter(data);
     const countRows = await sql.query<{ n: number }>(
       `select count(*)::int as n from bookings where ${whereSql}`,
       params,
     );
     const total = countRows[0]?.n ?? 0;
-    const offset = (data.page - 1) * PAGE_SIZE;
+    const offset = (data.page - 1) * pageSize;
     const rows = await sql.query<{
       id: string;
       name: string;
@@ -167,15 +213,15 @@ export const listBookings = createServerFn({ method: "POST" })
        from bookings
        where ${whereSql}
        order by ${order}
-       limit ${PAGE_SIZE} offset ${offset}`,
+       limit ${pageSize} offset ${offset}`,
       params,
     );
     return {
       rows: rows.map(mapRow),
       total,
       page: data.page,
-      pageSize: PAGE_SIZE,
-      pages: Math.max(1, Math.ceil(total / PAGE_SIZE)),
+      pageSize,
+      pages: Math.max(1, Math.ceil(total / pageSize)),
     };
   });
 
@@ -193,13 +239,23 @@ export const setBookingStatus = createServerFn({ method: "POST" })
     return { ok: true as const };
   });
 
-export const exportBookingsCsv = createServerFn({ method: "POST" })
+export const deleteBooking = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
-  .validator((data: unknown) => listSchema.omit({ page: true }).parse(data ?? {}))
+  .validator((data: unknown) => z.object({ id: z.string().min(1) }).parse(data))
   .handler(async ({ context, data }) => {
     await requireAdmin(context.userId);
     const sql = await getSql();
-    const { whereSql, params, order } = buildFilter({ ...data, page: 1 });
+    await sql`delete from bookings where id = ${data.id}`;
+    return { ok: true as const };
+  });
+
+export const exportBookingsCsv = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
+  .validator((data: unknown) => listSchema.omit({ page: true, pageSize: true }).parse(data ?? {}))
+  .handler(async ({ context, data }) => {
+    await requireAdmin(context.userId);
+    const sql = await getSql();
+    const { whereSql, params, order } = buildFilter({ ...data, page: 1, pageSize: 10000 });
     const rows = await sql.query<{
       id: string;
       name: string;
@@ -218,7 +274,17 @@ export const exportBookingsCsv = createServerFn({ method: "POST" })
        limit 10000`,
       params,
     );
-    const header = ["id", "name", "phone", "email", "session", "note", "status", "created_at", "updated_at"];
+    const header = [
+      "ID",
+      "Client Name",
+      "Phone",
+      "Email",
+      "Session Type",
+      "Brief / Goal",
+      "Status",
+      "Submitted At",
+      "Updated At",
+    ];
     const escape = (v: string) => `"${v.replace(/"/g, '""')}"`;
     const lines = [
       header.join(","),
@@ -239,4 +305,63 @@ export const exportBookingsCsv = createServerFn({ method: "POST" })
       ),
     ];
     return { csv: lines.join("\n"), count: rows.length };
+  });
+
+export const seedSampleBookings = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
+  .validator((data: unknown) => z.object({ count: z.number().int().min(1).max(300).optional().default(50) }).parse(data ?? {}))
+  .handler(async ({ context, data }) => {
+    await requireAdmin(context.userId);
+    const sql = await getSql();
+
+    const sampleFirstNames = [
+      "Chukwuemeka", "Olumide", "Ngozi", "Adebayo", "Fatima",
+      "Emeka", "Kehinde", "Zainab", "Chidinma", "Babatunde",
+      "Ifeoma", "Tunde", "Amaka", "Damilola", "Somto",
+      "Uche", "Folake", "Tari", "Kelechi", "Blessing",
+      "Femi", "Halima", "Obinna", "Tiwa", "Segun"
+    ];
+    const sampleLastNames = [
+      "Okafor", "Adeyemi", "Eze", "Balogun", "Ibrahim",
+      "Okeke", "Akinwale", "Danladi", "Nwosu", "Ogundele",
+      "Okonkwo", "Bakare", "Alabi", "Oni", "Nnamdi"
+    ];
+    const sampleNotes = [
+      "Wants to build raw squat and deadlift power before December.",
+      "Corporate executive looking for 6:00 AM strength training twice a week.",
+      "Sports brand photoshoot and live powerlifting appearance in Victoria Island.",
+      "4-week conditioning block for upcoming wedding and holiday trip.",
+      "Group training inquiry for 6 gym colleagues on Saturdays.",
+      "Powerlifting prep: bench press plateau at 120kg, need technical breakdown.",
+      "Recovery and core strength after minor knee strain.",
+      "Brand ambassador engagement for local supplement line launching in Ikeja.",
+      "Beginner: never touched a barbell, wants disciplined coaching with zero fluff.",
+      "Intensive 1:1 hypertrophy and raw power coaching on weekends."
+    ];
+    const statuses: BookingStatus[] = ["new", "contacted", "archived"];
+    const sessions = BOOKING_SESSIONS;
+
+    const countToSeed = data.count;
+    for (let i = 0; i < countToSeed; i++) {
+      const id = crypto.randomUUID();
+      const fn = sampleFirstNames[Math.floor(Math.random() * sampleFirstNames.length)];
+      const ln = sampleLastNames[Math.floor(Math.random() * sampleLastNames.length)];
+      const name = `${fn} ${ln}`;
+      const phoneDigits = Math.floor(10000000 + Math.random() * 90000000);
+      const prefix = ["0803", "0708", "0815", "0902", "0818"][Math.floor(Math.random() * 5)];
+      const phone = `${prefix}${phoneDigits.toString().slice(0, 7)}`;
+      const email = Math.random() > 0.25 ? `${fn.toLowerCase()}.${ln.toLowerCase()}@example.com` : "";
+      const session = sessions[Math.floor(Math.random() * sessions.length)];
+      const note = sampleNotes[Math.floor(Math.random() * sampleNotes.length)];
+      const status = statuses[Math.floor(Math.random() * statuses.length)];
+      const daysAgo = Math.floor(Math.random() * 45);
+      const createdAt = new Date(Date.now() - daysAgo * 86400000 - Math.random() * 86400000).toISOString();
+
+      await sql`
+        insert into bookings (id, name, phone, email, session, note, status, created_at, updated_at)
+        values (${id}, ${name}, ${phone}, ${email}, ${session}, ${note}, ${status}, ${createdAt}, ${createdAt})
+      `;
+    }
+
+    return { ok: true as const, seeded: countToSeed };
   });

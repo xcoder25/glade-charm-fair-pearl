@@ -1,6 +1,6 @@
 import { r as __exportAll$1 } from "../_runtime.mjs";
 import { n as require_react } from "../_libs/@radix-ui/react-compose-refs+[...].mjs";
-import { A as executeRewriteInput, D as resolveManifestAssetLink, E as getStylesheetHref, F as isRedirect, I as isResolvedRedirect, L as parseRedirect, O as resolveManifestCssLink, R as rootRouteId, T as getScriptPreloadAttrs, a as isSsrResponse, b as require_jsx_runtime, c as stripSsrResponseBody, d as RouterProvider, i as disposeSsrResponseDetached, j as invariant, k as _getRenderedMatches, n as bindSsrResponseToRequest, o as normalizeSsrResponse, r as defineHandlerCallback, s as replaceSsrResponse, t as renderRouterToStream, z as isNotFound } from "../_libs/@tanstack/react-router+[...].mjs";
+import { A as _getRenderedMatches, B as isNotFound, D as getStylesheetHref, E as getScriptPreloadAttrs, I as isRedirect, L as isResolvedRedirect, M as invariant, O as resolveManifestAssetLink, R as parseRedirect, a as isSsrResponse, c as stripSsrResponseBody, d as RouterProvider, i as disposeSsrResponseDetached, j as executeRewriteInput, k as resolveManifestCssLink, n as bindSsrResponseToRequest, o as normalizeSsrResponse, r as defineHandlerCallback, s as replaceSsrResponse, t as renderRouterToStream, x as require_jsx_runtime, z as rootRouteId } from "../_libs/@tanstack/react-router+[...].mjs";
 import { n as createMemoryHistory } from "../_libs/tanstack__history.mjs";
 import { a as getOrigin, c as createSerializationAdapter, d as toCrossJSONAsync, f as toCrossJSONStream, i as getNormalizedURL, l as makeSerovalPlugin, n as mergeHeaders, o as defaultSerovalPlugins, r as attachRouterServerSsrUtils, s as createRawStreamRPCPlugin, t as waitForRequest, u as fromJSON } from "../_libs/@tanstack/router-core+[...].mjs";
 import { n as setCookie, r as toResponse, t as H3Event } from "../_libs/h3-v2+rou3.mjs";
@@ -14,7 +14,6 @@ var ssr_exports = /* @__PURE__ */ __exportAll$1({
 	n: () => createMiddleware,
 	o: () => getRequest,
 	r: () => createServerFn,
-	s: () => __exportAll,
 	t: () => server_exports
 });
 require_react();
@@ -117,7 +116,7 @@ var HEADERS = { TSS_SHELL: "X-TSS_SHELL" };
 * the dev styles URL for route-scoped CSS collection.
 */
 async function getStartManifest(matchedRoutes) {
-	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-WFcfovBA.mjs");
+	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-BfBvBsnO.mjs");
 	const startManifest = tsrStartManifest();
 	let routes = startManifest.routes;
 	routes[rootRouteId];
@@ -137,25 +136,41 @@ async function getStartManifest(matchedRoutes) {
 	};
 }
 var manifest = {
+	"0e79a541c8326b77a034536a8443842eef83c02963a60cb7a2fcb3e697fb2bbd": {
+		functionName: "seedSampleBookings_createServerFn_handler",
+		importer: () => import("./bookings-e7B3pJcF.mjs")
+	},
+	"2420e1ed2ad46dfcd1fd22776a423176e316232cd51645fc300c86d7cb753214": {
+		functionName: "getBookingStats_createServerFn_handler",
+		importer: () => import("./bookings-e7B3pJcF.mjs")
+	},
 	"2c8729413fa4967fdb47267e50bc193f02c829fa8500fe73b36f1493bf022d8d": {
 		functionName: "setBookingStatus_createServerFn_handler",
-		importer: () => import("./bookings-Dptkyqti.mjs")
+		importer: () => import("./bookings-e7B3pJcF.mjs")
 	},
 	"54b6453433198a563743971e16034b746511d5dc21fe57a6f464d70b6488cca7": {
 		functionName: "listBookings_createServerFn_handler",
-		importer: () => import("./bookings-Dptkyqti.mjs")
+		importer: () => import("./bookings-e7B3pJcF.mjs")
 	},
 	"8a860d2acb5e0b58781edbd0258e2f798a46eaa1506e5243c46af1c325d4464b": {
 		functionName: "exportBookingsCsv_createServerFn_handler",
-		importer: () => import("./bookings-Dptkyqti.mjs")
+		importer: () => import("./bookings-e7B3pJcF.mjs")
 	},
 	"98d718cc96486a19218ab540e4ff180a1c069dda9e6a933998823510dce56374": {
 		functionName: "createBooking_createServerFn_handler",
-		importer: () => import("./bookings-Dptkyqti.mjs")
+		importer: () => import("./bookings-e7B3pJcF.mjs")
+	},
+	"d67ca858695ccf01c8e2fdf66ec2a6a84005ff53bacae7b2a7dd099a49a6c6bc": {
+		functionName: "deleteBooking_createServerFn_handler",
+		importer: () => import("./bookings-e7B3pJcF.mjs")
 	},
 	"ebbaa47ec74265ba47bc814c3a2bfe4e942efed8e9bd76fe6ca0bc527fb99631": {
 		functionName: "claimAdmin_createServerFn_handler",
-		importer: () => import("./bookings-Dptkyqti.mjs")
+		importer: () => import("./bookings-e7B3pJcF.mjs")
+	},
+	"ee154163f8001bedf12461bead04681cd59310f4a8ca9822842fdd349c05c98d": {
+		functionName: "checkAdminSetup_createServerFn_handler",
+		importer: () => import("./bookings-e7B3pJcF.mjs")
 	}
 };
 async function getServerFnById(id, access) {
@@ -1425,7 +1440,7 @@ var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
 	const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-		import("./router-nk_RaNZF.mjs").then((n) => n.t),
+		import("./router-DGK-lFsQ.mjs").then((n) => n.t),
 		import("./start-5Z2QO8AU.mjs"),
 		import("./empty-plugin-adapters-D9UWiqvJ.mjs")
 	]);
@@ -1872,4 +1887,4 @@ function createServerEntry(entry) {
 }
 var server_default = createServerEntry({ fetch });
 //#endregion
-export { getServerFnById as a, ssr_exports as c, createServerEntry, server_default as default, TSS_SERVER_FUNCTION as i, createMiddleware as n, getRequest as o, createServerFn as r, __exportAll as s, server_exports as t };
+export { getServerFnById as a, createServerEntry, server_default as default, TSS_SERVER_FUNCTION as i, createMiddleware as n, getRequest as o, createServerFn as r, ssr_exports as s, server_exports as t };
