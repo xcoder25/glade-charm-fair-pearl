@@ -1,10 +1,11 @@
-import { i as __toESM, n as __exportAll } from "../_runtime.mjs";
+import { o as __toESM, r as __exportAll } from "../_runtime.mjs";
 import { n as require_react } from "../_libs/@radix-ui/react-compose-refs+[...].mjs";
-import { _ as useRouter, f as createRouter, g as createRootRoute, h as createFileRoute, l as Scripts, m as lazyRouteComponent, p as Outlet, u as HeadContent, v as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
-import { i as TriangleAlert } from "../_libs/lucide-react.mjs";
-import { a as union, i as string, n as number, r as object, t as literal } from "../_libs/zod.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-B0L-mt8J.js
-var router_B0L_mt8J_exports = /* @__PURE__ */ __exportAll({ getRouter: () => getRouter });
+import { b as require_jsx_runtime, f as createRouter, g as createRootRoute, h as createFileRoute, l as Scripts, m as lazyRouteComponent, p as Outlet, u as HeadContent, y as useRouter } from "../_libs/@tanstack/react-router+[...].mjs";
+import { f as literal, h as object, m as number, v as string, y as union } from "../_libs/zod.mjs";
+import { a as TriangleAlert } from "../_libs/lucide-react.mjs";
+import { n as auth } from "./server-D9cVw9bb.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/router-nk_RaNZF.js
+var router_nk_RaNZF_exports = /* @__PURE__ */ __exportAll({ getRouter: () => getRouter });
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function AppErrorComponent({ error }) {
@@ -273,9 +274,8 @@ function PreviewHostBridge() {
 	}, [router]);
 	return null;
 }
-var styles_default = "/assets/styles-C2k56Q_t.css";
-var APP_NAME = "Jack Manuel Fitness";
-var Route$1 = createRootRoute({
+var styles_default = "/assets/styles-DpggDUnN.css";
+var Route$4 = createRootRoute({
 	head: () => ({
 		meta: [
 			{ charSet: "utf-8" },
@@ -283,14 +283,82 @@ var Route$1 = createRootRoute({
 				name: "viewport",
 				content: "width=device-width, initial-scale=1"
 			},
-			{ title: APP_NAME },
+			{ title: "Jack Manuel Fitness — Raw Power Coaching Lagos" },
 			{
 				name: "description",
-				content: "Jack Manuel Fitness Limited — 1:1 coaching, group training, and brand bookings in Lagos. Raw power. Real strength. Book a session."
+				content: "Jack Manuel Fitness Limited — 1:1 coaching, group training, and brand bookings in Lagos, Nigeria. Raw power. Real strength. Book a session with Coach Okoro Ogbonna."
 			},
 			{
 				name: "theme-color",
 				content: "#0a0a0b"
+			},
+			{
+				name: "color-scheme",
+				content: "dark"
+			},
+			{
+				name: "robots",
+				content: "index, follow"
+			},
+			{
+				name: "author",
+				content: "Okoro Ogbonna (Jack Manuel)"
+			},
+			{
+				name: "keywords",
+				content: "personal trainer Lagos, strength coach Nigeria, 1:1 coaching Lagos, Jack Manuel Fitness, gym Lagos, Hustle Gang fitness"
+			},
+			{
+				property: "og:type",
+				content: "website"
+			},
+			{
+				property: "og:site_name",
+				content: "Jack Manuel Fitness"
+			},
+			{
+				property: "og:title",
+				content: "Jack Manuel Fitness — Raw Power Coaching Lagos"
+			},
+			{
+				property: "og:description",
+				content: "1:1 coaching, group sessions & brand bookings in Lagos. Strength that is real — not a filter. Book Coach Jack Manuel today."
+			},
+			{
+				property: "og:image",
+				content: "/images/jack-coach.jpg"
+			},
+			{
+				property: "og:image:width",
+				content: "1200"
+			},
+			{
+				property: "og:image:height",
+				content: "630"
+			},
+			{
+				property: "og:image:alt",
+				content: "Jack Manuel — Head Coach & Founder, Lagos Nigeria"
+			},
+			{
+				name: "twitter:card",
+				content: "summary_large_image"
+			},
+			{
+				name: "twitter:title",
+				content: "Jack Manuel Fitness — Raw Power Coaching Lagos"
+			},
+			{
+				name: "twitter:description",
+				content: "1:1 coaching, group sessions & brand bookings in Lagos. Strength that is real. Book Coach Jack Manuel today."
+			},
+			{
+				name: "twitter:image",
+				content: "/images/jack-coach.jpg"
+			},
+			{
+				name: "twitter:image:alt",
+				content: "Jack Manuel — Head Coach & Founder, Lagos Nigeria"
 			}
 		],
 		links: [
@@ -340,13 +408,39 @@ var Route$1 = createRootRoute({
 		})]
 	})
 });
-var $$splitComponentImporter = () => import("./routes-CzAS3nG3.mjs");
-var rootRouteChildren = { IndexRoute: createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter, "component") }).update({
-	id: "/",
-	path: "/",
-	getParentRoute: () => Route$1
-}) };
-var routeTree = Route$1._addFileChildren(rootRouteChildren)._addFileTypes();
+var $$splitComponentImporter$2 = () => import("./routes-CQ-umcGQ.mjs");
+var Route$3 = createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter$2, "component") });
+var $$splitComponentImporter$1 = () => import("./admin-A6pjxMqp.mjs");
+var Route$2 = createFileRoute("/admin")({ component: lazyRouteComponent($$splitComponentImporter$1, "component") });
+var $$splitComponentImporter = () => import("./login-DQYzwciz.mjs");
+var Route$1 = createFileRoute("/login")({ component: lazyRouteComponent($$splitComponentImporter, "component") });
+var Route = createFileRoute("/api/auth/$")({ server: { handlers: {
+	GET: ({ request }) => auth.handler(request),
+	POST: ({ request }) => auth.handler(request)
+} } });
+var rootRouteChildren = {
+	IndexRoute: Route$3.update({
+		id: "/",
+		path: "/",
+		getParentRoute: () => Route$4
+	}),
+	AdminRoute: Route$2.update({
+		id: "/admin",
+		path: "/admin",
+		getParentRoute: () => Route$4
+	}),
+	LoginRoute: Route$1.update({
+		id: "/login",
+		path: "/login",
+		getParentRoute: () => Route$4
+	}),
+	ApiAuthSplatRoute: Route.update({
+		id: "/api/auth/$",
+		path: "/api/auth/$",
+		getParentRoute: () => Route$4
+	})
+};
+var routeTree = Route$4._addFileChildren(rootRouteChildren)._addFileTypes();
 function getRouter() {
 	return createRouter({
 		routeTree,
@@ -354,4 +448,4 @@ function getRouter() {
 	});
 }
 //#endregion
-export { getRouter, router_B0L_mt8J_exports as t };
+export { getRouter, router_nk_RaNZF_exports as t };

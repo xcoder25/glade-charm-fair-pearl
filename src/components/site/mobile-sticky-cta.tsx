@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 export function MobileStickyCta() {
   const [show, setShow] = useState(false);
@@ -34,7 +35,7 @@ export function MobileStickyCta() {
           Book a session
         </a>
         <a
-          href="https://wa.me/2348030997843"
+          href={WHATSAPP_URL}
           target="_blank"
           rel="noreferrer"
           aria-label="WhatsApp"

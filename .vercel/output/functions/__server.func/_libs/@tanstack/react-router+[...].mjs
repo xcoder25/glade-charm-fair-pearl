@@ -1,4 +1,4 @@
-import { i as __toESM, r as __require, t as __commonJSMin } from "../../_runtime.mjs";
+import { i as __require, o as __toESM, t as __commonJSMin } from "../../_runtime.mjs";
 import { n as require_react } from "../@radix-ui/react-compose-refs+[...].mjs";
 import { r as parseHref } from "../tanstack__history.mjs";
 import { PassThrough, Readable } from "node:stream";
@@ -56,6 +56,11 @@ function isRedirect(obj) {
 /** True if value is a redirect with a resolved `href` location. */
 function isResolvedRedirect(obj) {
 	return isRedirect(obj) && !!obj.options.href;
+}
+/** Parse a serialized redirect object back into a redirect Response. */
+/** Parse a serialized redirect object back into a redirect Response. */
+function parseRedirect(obj) {
+	if (obj !== null && typeof obj === "object" && obj.isSerializedRedirect) return redirect(obj);
 }
 //#endregion
 //#region node_modules/@tanstack/router-core/dist/esm/ssr/ssr-match-id.js
@@ -4450,6 +4455,31 @@ function useNavigate(_defaultOpts) {
 			from: options.from ?? _defaultOpts?.from
 		});
 	}, [_defaultOpts?.from, router]);
+}
+/**
+* Component that triggers a navigation when rendered. Navigation executes
+* in an effect after mount/update.
+*
+* Props are the same as `NavigateOptions` used by `navigate()`.
+*
+* @returns null
+* @link https://tanstack.com/router/latest/docs/framework/react/api/router/navigateComponent
+*/
+function Navigate(props) {
+	const router = useRouter();
+	const navigate = useNavigate();
+	const previousPropsRef = import_react.useRef(null);
+	useLayoutEffect(() => {
+		if (previousPropsRef.current !== props) {
+			navigate(props);
+			previousPropsRef.current = props;
+		}
+	}, [
+		router,
+		props,
+		navigate
+	]);
+	return null;
 }
 //#endregion
 //#region node_modules/@tanstack/react-router/dist/esm/useRouteContext.js
@@ -14736,4 +14766,4 @@ var renderRouterToStream = async ({ request, router, responseHeaders, children }
 	throw new Error("No renderToReadableStream or renderToPipeableStream found in react-dom/server. Ensure you are using a version of react-dom that supports streaming.");
 };
 //#endregion
-export { createLRUCache as A, getScriptPreloadAttrs as C, _getRenderedMatches as D, resolveManifestCssLink as E, rootRouteId as F, isNotFound as I, dehydrateSsrMatchId as M, isRedirect as N, executeRewriteInput as O, isResolvedRedirect as P, createInlineCssStyleAsset as S, resolveManifestAssetLink as T, useRouter as _, isSsrResponse as a, TSR_SCRIPT_BARRIER_ID as b, stripSsrResponseBody as c, RouterProvider as d, createRouter as f, createRootRoute as g, createFileRoute as h, disposeSsrResponseDetached as i, decodePath as j, invariant as k, Scripts as l, lazyRouteComponent as m, bindSsrResponseToRequest as n, normalizeSsrResponse as o, Outlet as p, defineHandlerCallback as r, replaceSsrResponse as s, renderRouterToStream as t, HeadContent as u, require_jsx_runtime as v, getStylesheetHref as w, createInlineCssPlaceholderAsset as x, GLOBAL_TSR as y };
+export { executeRewriteInput as A, createInlineCssPlaceholderAsset as C, resolveManifestAssetLink as D, getStylesheetHref as E, isRedirect as F, isResolvedRedirect as I, parseRedirect as L, createLRUCache as M, decodePath as N, resolveManifestCssLink as O, dehydrateSsrMatchId as P, rootRouteId as R, TSR_SCRIPT_BARRIER_ID as S, getScriptPreloadAttrs as T, Link as _, isSsrResponse as a, require_jsx_runtime as b, stripSsrResponseBody as c, RouterProvider as d, createRouter as f, createRootRoute as g, createFileRoute as h, disposeSsrResponseDetached as i, invariant as j, _getRenderedMatches as k, Scripts as l, lazyRouteComponent as m, bindSsrResponseToRequest as n, normalizeSsrResponse as o, Outlet as p, defineHandlerCallback as r, replaceSsrResponse as s, renderRouterToStream as t, HeadContent as u, Navigate as v, createInlineCssStyleAsset as w, GLOBAL_TSR as x, useRouter as y, isNotFound as z };

@@ -1,3 +1,13 @@
+import {
+  BOOKINGS_LEAD,
+  CONTACT_EMAIL,
+  PHONE_ALT_DISPLAY,
+  PHONE_ALT_TEL,
+  PHONE_PRIMARY_DISPLAY,
+  PHONE_PRIMARY_TEL,
+  WHATSAPP_URL,
+} from "@/lib/contact";
+
 const SOCIALS = [
   { href: "https://www.instagram.com/jack_manuel_fitness/", label: "Instagram" },
   { href: "https://www.tiktok.com/@jackmanuelfitness1", label: "TikTok" },
@@ -16,7 +26,6 @@ const NAV_LINKS = [
 export function Footer() {
   return (
     <footer className="border-t border-border bg-surface">
-      {/* WhatsApp CTA strip */}
       <div className="border-b border-border bg-elevated/60">
         <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div>
@@ -27,11 +36,11 @@ export function Footer() {
               Message the desk on WhatsApp
             </p>
             <p className="mt-1 text-sm text-muted">
-              Bookings Lead: Prince John Francis · 0803 099 7843
+              Bookings Lead: {BOOKINGS_LEAD} · {PHONE_PRIMARY_DISPLAY}
             </p>
           </div>
           <a
-            href="https://wa.me/2348030997843"
+            href={WHATSAPP_URL}
             target="_blank"
             rel="noreferrer"
             className="inline-flex shrink-0 items-center gap-2.5 rounded-lg bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-900/30 transition-all duration-200 hover:bg-emerald-500 hover:shadow-emerald-900/50 active:scale-95"
@@ -45,9 +54,7 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Main footer grid */}
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-3 md:gap-8">
-        {/* Brand */}
         <div className="md:col-span-1">
           <p className="font-display text-2xl tracking-wide text-fg">JACK MANUEL FITNESS</p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
@@ -69,7 +76,6 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Site links */}
         <div>
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
             Navigate
@@ -88,7 +94,6 @@ export function Footer() {
           </ul>
         </div>
 
-        {/* Contact */}
         <div>
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
             Contact
@@ -96,20 +101,21 @@ export function Footer() {
           <ul className="flex flex-col gap-3 text-sm">
             <li>
               <p className="text-subtle text-xs uppercase tracking-wider mb-0.5">Bookings</p>
-              <a
-                href="tel:+2348030997843"
-                className="text-muted transition-colors hover:text-fg"
-              >
-                0803 099 7843
+              <a href={`tel:${PHONE_PRIMARY_TEL}`} className="text-muted transition-colors hover:text-fg">
+                {PHONE_PRIMARY_DISPLAY}
+              </a>
+              <span className="text-subtle"> · </span>
+              <a href={`tel:${PHONE_ALT_TEL}`} className="text-muted transition-colors hover:text-fg">
+                {PHONE_ALT_DISPLAY}
               </a>
             </li>
             <li>
               <p className="text-subtle text-xs uppercase tracking-wider mb-0.5">Email</p>
               <a
-                href="mailto:manueljack929@gmail.com"
+                href={`mailto:${CONTACT_EMAIL}`}
                 className="text-muted transition-colors hover:text-fg break-all"
               >
-                manueljack929@gmail.com
+                {CONTACT_EMAIL}
               </a>
             </li>
             <li>
@@ -120,7 +126,6 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Bottom bar */}
       <div className="border-t border-border px-4 py-4 sm:px-6">
         <p className="text-center text-xs text-subtle">
           © {new Date().getFullYear()} Jack Manuel Fitness Limited. All rights reserved.

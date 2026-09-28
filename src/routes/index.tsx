@@ -25,6 +25,15 @@ import { HeroSlideshow } from "@/components/site/hero-slideshow";
 import { MobileStickyCta } from "@/components/site/mobile-sticky-cta";
 import { Button } from "@/components/ui/button";
 import { Reveal, AnimatedCounter } from "@/components/ui/reveal";
+import {
+  BOOKINGS_LEAD,
+  CONTACT_EMAIL,
+  PHONE_ALT_DISPLAY,
+  PHONE_ALT_TEL,
+  PHONE_PRIMARY_DISPLAY,
+  PHONE_PRIMARY_TEL,
+  WHATSAPP_URL,
+} from "@/lib/contact";
 
 /* ── Scroll Progress Bar ── */
 function ScrollProgress() {
@@ -776,7 +785,7 @@ function Home() {
                     Still not sure? WhatsApp the desk — we reply fast.
                   </p>
                   <a
-                    href="https://wa.me/2348030997843"
+                    href={WHATSAPP_URL}
                     target="_blank"
                     rel="noreferrer"
                     className="mt-6 inline-flex items-center gap-2 rounded-md border border-emerald-500/40 bg-emerald-500/10 px-4 py-2.5 text-sm font-medium text-emerald-400 transition-colors hover:bg-emerald-500/20"
@@ -825,28 +834,37 @@ function Home() {
                   </p>
                   <ul className="space-y-3.5 text-sm text-muted">
                     <li className="flex items-center justify-between gap-2 border-b border-border/60 pb-3">
-                      <span>Bookings Lead: Prince John Francis</span>
+                      <span>Bookings Lead: {BOOKINGS_LEAD}</span>
                       <a
                         className="text-fg font-medium underline-offset-4 hover:underline"
-                        href="tel:+2348030997843"
+                        href={`tel:${PHONE_PRIMARY_TEL}`}
                       >
-                        0803 099 7843
+                        {PHONE_PRIMARY_DISPLAY}
+                      </a>
+                    </li>
+                    <li className="flex items-center justify-between gap-2 border-b border-border/60 pb-3">
+                      <span>Alt. phone:</span>
+                      <a
+                        className="text-fg font-medium underline-offset-4 hover:underline"
+                        href={`tel:${PHONE_ALT_TEL}`}
+                      >
+                        {PHONE_ALT_DISPLAY}
                       </a>
                     </li>
                     <li className="flex items-center justify-between gap-2 border-b border-border/60 pb-3">
                       <span>Official Email:</span>
                       <a
                         className="text-fg font-medium underline-offset-4 hover:underline"
-                        href="mailto:manueljack929@gmail.com"
+                        href={`mailto:${CONTACT_EMAIL}`}
                       >
-                        manueljack929@gmail.com
+                        {CONTACT_EMAIL}
                       </a>
                     </li>
                     <li className="flex items-center justify-between gap-2 pt-1">
                       <span>Instant WhatsApp:</span>
                       <a
                         className="inline-flex items-center gap-1.5 text-emerald-400 font-medium underline-offset-4 hover:underline"
-                        href="https://wa.me/2348030997843"
+                        href={WHATSAPP_URL}
                         target="_blank"
                         rel="noreferrer"
                       >

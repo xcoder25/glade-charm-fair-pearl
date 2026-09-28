@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, type KeyboardEvent } from "react";
 import { X, Send, Bot, ChevronDown, Zap } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { BOOKINGS_LEAD, CONTACT_EMAIL, PHONE_PRIMARY_DISPLAY, WHATSAPP_URL } from "@/lib/contact";
 
 /* ─────────────────────────────────────────────
    JACK-BOT BRAIN — keyword → response engine
@@ -132,7 +133,7 @@ const RULES: { keywords: string[]; replies: Reply[] }[] = [
     keywords: ["book", "booking", "schedule", "appointment", "reserve", "how to book", "sign up"],
     replies: [
       {
-        text: "Simple. Two ways:\n\n1️⃣ Fill the form at the bottom of this page — name, number, what you need.\n2️⃣ Message the desk directly on WhatsApp: 0803 099 7843\n\nWe reply with availability and rate. No back-and-forth drama.",
+        text: `Simple. Two ways:\n\n1️⃣ Fill the form at the bottom of this page — name, number, what you need.\n2️⃣ Message the desk directly on WhatsApp: ${PHONE_PRIMARY_DISPLAY}\n\nWe reply with availability and rate. No back-and-forth drama.`,
         chips: ["Go to booking form", "WhatsApp now", "What info do I need?"],
       },
     ],
@@ -141,7 +142,7 @@ const RULES: { keywords: string[]; replies: Reply[] }[] = [
     keywords: ["whatsapp", "contact", "call", "phone", "email", "reach", "message"],
     replies: [
       {
-        text: "Fastest path to Jack's team:\n\n📱 WhatsApp: 0803 099 7843 (Prince John Francis — Bookings Lead)\n📧 Email: manueljack929@gmail.com\n\nWhatsApp gets the fastest reply. Always.",
+        text: `Fastest path to Jack's team:\n\n📱 WhatsApp: ${PHONE_PRIMARY_DISPLAY} (${BOOKINGS_LEAD} — Bookings Lead)\n📧 Email: ${CONTACT_EMAIL}\n\nWhatsApp gets the fastest reply. Always.`,
         chips: ["Open WhatsApp now", "Book via form instead"],
       },
     ],
@@ -323,7 +324,7 @@ export function JackBot() {
       return;
     }
     if (chip === "WhatsApp now" || chip === "Open WhatsApp now") {
-      window.open("https://wa.me/2348030997843", "_blank");
+      window.open(WHATSAPP_URL, "_blank");
       return;
     }
     sendMessage(chip);

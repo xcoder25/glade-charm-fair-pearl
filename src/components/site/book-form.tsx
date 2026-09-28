@@ -1,27 +1,22 @@
 import { useState, type FormEvent } from "react";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { saveInquiry } from "@/lib/inquiries";
+import { createBooking } from "@/lib/bookings";
+import { BOOKING_SESSIONS, whatsappUrlWithText } from "@/lib/contact";
 import { cn } from "@/lib/cn";
-
-const SESSIONS = [
-  "1:1 coaching",
-  "Raw power session",
-  "Brand / appearance",
-  "Group training",
-];
 
 export function BookForm() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [session, setSession] = useState(SESSIONS[0]);
+  const [session, setSession] = useState<(typeof BOOKING_SESSIONS)[number]>(BOOKING_SESSIONS[0]);
   const [note, setNote] = useState("");
   const [error, setError] = useState("");
   const [done, setDone] = useState(false);
+  const [busy, setBusy] = useState(false);
   const [whatsappUrl, setWhatsappUrl] = useState("");
 
-  function onSubmit(e: FormEvent) {
+  async function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (name.trim().length < 2) {
       setError("Add your name.");
@@ -31,26 +26,34 @@ export function BookForm() {
       setError("Add a working phone or WhatsApp number.");
       return;
     }
-    saveInquiry({
-      name: name.trim(),
-      phone: phone.trim(),
-      email: email.trim(),
-      session,
-      note: note.trim(),
-    });
-    // Build a pre-filled WhatsApp message so Jack's team receives the lead instantly
-    const lines = [
-      `*New booking request from ${name.trim()}*`,
-      `📋 Session: ${session}`,
-      `📞 Phone: ${phone.trim()}`,
-      email.trim() ? `📧 Email: ${email.trim()}` : "",
-      note.trim() ? `📝 Brief: ${note.trim()}` : "",
-    ]
-      .filter(Boolean)
-      .join("\n");
-    setWhatsappUrl(`https://wa.me/2348030997843?text=${encodeURIComponent(lines)}`);
+    setBusy(true);
     setError("");
-    setDone(true);
+    try {
+      await createBooking({
+        data: {
+          name: name.trim(),
+          phone: phone.trim(),
+          email: email.trim(),
+          session,
+          note: note.trim(),
+        },
+      });
+      const lines = [
+        `*New booking request from ${name.trim()}*`,
+        `📋 Session: ${session}`,
+        `📞 Phone: ${phone.trim()}`,
+        email.trim() ? `📧 Email: ${email.trim()}` : "",
+        note.trim() ? `📝 Brief: ${note.trim()}` : "",
+      ]
+        .filter(Boolean)
+        .join("\n");
+      setWhatsappUrl(whatsappUrlWithText(lines));
+      setDone(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not save this request. Try again.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   if (done) {
@@ -112,7 +115,7 @@ export function BookForm() {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             className="h-11 w-full rounded-md border border-border bg-surface px-3 text-sm text-fg placeholder:text-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg"
-            placeholder="0803…"
+            placeholder="0708…"
             autoComplete="tel"
             inputMode="tel"
           />
@@ -136,7 +139,7 @@ export function BookForm() {
           What do you need
         </legend>
         <div className="grid grid-cols-2 gap-2">
-          {SESSIONS.map((s) => (
+          {BOOKING_SESSIONS.map((s) => (
             <button
               key={s}
               type="button"
@@ -166,8 +169,8 @@ export function BookForm() {
         />
       </label>
       {error ? <p className="mt-3 text-sm text-muted">{error}</p> : null}
-      <Button type="submit" className="mt-5 w-full sm:w-auto" size="lg">
-        Request a booking
+      <Button type="submit" className="mt-5 w-full sm:w-auto" size="lg" disabled={busy}>
+        {busy ? "Sending…" : "Request a booking"}
       </Button>
     </form>
   );
